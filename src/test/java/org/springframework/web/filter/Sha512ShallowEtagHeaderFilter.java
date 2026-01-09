@@ -6,7 +6,8 @@ import com.google.common.hash.Hashing;
 public class Sha512ShallowEtagHeaderFilter extends ShallowEtagHeaderFilter {
 
 	@Override
-	protected String generateETagHeaderValue(byte[] bytes) {
+	protected String generateETagHeaderValue(java.io.InputStream inputStream, boolean isWeak) throws java.io.IOException {
+		final byte[] bytes = inputStream.readAllBytes();
 		final HashCode hash = Hashing.sha512().hashBytes(bytes);
 		return "\"" + hash + "\"";
 	}
